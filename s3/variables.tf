@@ -32,3 +32,9 @@ variable "kms_key_arn" {
   type        = string
   default     = null ## must be 'null' for AES256
 }
+
+variable "bucket_key_enabled" {
+  description = "The bucket key is used to cache the KMS key to reduce the cost of using KMS"
+  type        = string
+  default     = null ## must be 'null' for AES256
+}

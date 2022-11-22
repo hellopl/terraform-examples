@@ -5,11 +5,10 @@ terraform {
       version = "~> 4.0"
     }
   }
-
   #backend "s3" {
-  #  bucket         = "tf-state-myproject"
-  #  dynamodb_table = "tf-state-myproject-lock"
-  #  key            = "s3.tfstate"
+  #  bucket         = "tf-state-my"
+  #  dynamodb_table = "tf-state-my-lock"
+  #  key            = "tf-backend.tfstate"
   #  region         = "us-east-1"
   #  encrypt        = "true"
   #}
@@ -17,16 +16,11 @@ terraform {
 
 provider "aws" {
   region  = var.region
-  #profile = "some-profile"
 
   default_tags {
     tags = {
       terraform = "true"
+      tf-type   = "tf-backend"
     }
   }
 }
-
-#provider "aws" {
-#  alias  = "dev"
-#  profile = "dev"
-#}

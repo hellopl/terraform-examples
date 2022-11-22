@@ -44,39 +44,16 @@ resource "aws_s3_bucket_ownership_controls" "disable_acl" {
   }
 }
 
-data "external" "organization" {
-  program = ["sh", "-c", "aws organizations describe-organization --query Organization.'{id: Id, root: MasterAccountId}'"] 
-}
+## DynamoDB table for the state lock
+resource "aws_dynamodb_table" "this" {
+  name           = coalesce(var.table_name, "${var.name}-lock")
+  write_capacity = var.write_capacity
+  read_capacity  = var.read_capacity
+  hash_key       = var.hash_key
 
-## S3 bucket policy for shared files for all AWS accounts in Organization
-data "aws_iam_policy_document" "shared_rw_access_for_organization" {
-  statement {
-    sid = "Shared ReadWrite access for all AWS accounts in Organization"
-
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
-
-    actions = ["s3:*"]
-
-    resources = ["arn:aws:s3:::${aws_s3_bucket.this.id}", "arn:aws:s3:::${aws_s3_bucket.this.id}/${var.shared_path}"]
-
-    condition {
-      test = "StringEquals"
-
-      values = [
-        data.external.organization.result["id"]
-      ]
-
-      variable = "aws:PrincipalOrgID"
-    }
-
+  attribute {
+    name = var.attribute_name
+    type = var.attribute_key
   }
-}
 
-## add S3 bucket policy
-resource "aws_s3_bucket_policy" "shared_rw_access_for_organization" {
-  bucket = aws_s3_bucket.this.id
-  policy = data.aws_iam_policy_document.shared_rw_access_for_organization.json
 }
