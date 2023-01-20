@@ -6,7 +6,7 @@ terraform {
     }
   }
 
-  #backend "s3" {
+  # Backend "s3" {
   #  bucket         = "my-tf-state-us-east-1"
   #  dynamodb_table = "my-tf-state-us-east-1-lock"
   #  key            = "iam.tfstate"
