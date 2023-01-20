@@ -18,7 +18,7 @@ resource "aws_kms_alias" "this" {
   target_key_id = aws_kms_key.this.key_id
 }
 
-## get current AWS account ID - data.aws_caller_identity.current.account_id
+## get current AWS account ID -- data.aws_caller_identity.current.account_id
 data "aws_caller_identity" "current" {}
 
 data "aws_iam_policy_document" "this" {

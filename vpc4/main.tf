@@ -1,4 +1,4 @@
-## AWS provider
+## AWS provider VPC
 provider "aws" {
   region  = local.region
 
@@ -9,7 +9,7 @@ provider "aws" {
   }
 }
 
-## main configuration
+## Main configuration
 locals {
   region     = "us-east-1"
   vpc_name   = "Vpc4"
