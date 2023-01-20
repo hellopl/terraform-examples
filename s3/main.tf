@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "this" {
   bucket = var.name
 }
 
-## Block public access
+## Block public access _
 resource "aws_s3_bucket_public_access_block" "block_public_access" {
   bucket = aws_s3_bucket.this.id
 
